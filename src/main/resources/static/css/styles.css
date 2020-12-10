@@ -1,0 +1,60 @@
+body {
+	background-color: #263238;
+	overflow:hidden;
+}
+
+#player_container { 
+	height:84vh; 
+	padding-top: 1vh;
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+#video_container { 
+	height: 13vh;
+	overflow-x:auto;
+  	overflow-y: hidden;
+ 	scroll-behavior: smooth;
+	 }
+
+.flex-container {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    }
+
+.flex-item{
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+    background-color:hsla(0, 0%, 5.098039%, 0.5);
+    padding:5px;
+    cursor:pointer;
+    border-style: solid;
+    border-color:black;
+    }
+    
+.flex-item.selected {
+	border-color:white;
+}
