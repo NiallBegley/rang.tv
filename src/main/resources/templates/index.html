@@ -44,8 +44,14 @@
         event.target.playVideo();
       }
 
-      var done = false;
       function onPlayerStateChange(event) {
+    	  if (event.data == YT.PlayerState.ENDED && currentlySelected != null) {
+    		  var nextElement = currentlySelected.nextElementSibling;
+    		  if(nextElement != null) {
+    			  nextElement.click();
+    		  }
+          }
+
        
       }
       function stopVideo() {

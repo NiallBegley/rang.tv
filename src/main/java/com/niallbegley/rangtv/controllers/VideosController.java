@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.niallbegley.rangtv.model.TopLevelObject;
 import com.niallbegley.rangtv.model.Video;
@@ -22,7 +23,10 @@ public class VideosController {
 	 @GetMapping("/")
 	 public String getVideos(Model model) {
 		 
-		 TopLevelObject test = restOperations.getForEntity("https://www.reddit.com/r/videos/hot.json", TopLevelObject.class).getBody();
+		 UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://www.reddit.com/r/videos/hot.json")
+			        .queryParam("limit", 100);
+			        
+		 TopLevelObject test = restOperations.getForEntity(builder.build().toUri(), TopLevelObject.class).getBody();
 		 
 		 List<Video> videos = test.getData().getChildren().stream().map(VideoParent::getVideo).collect(Collectors.toList());
 		 
