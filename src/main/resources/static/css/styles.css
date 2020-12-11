@@ -2,9 +2,22 @@ body {
 	background-color: #263238;
 	overflow:hidden;
 }
+#title_container {
+	height:3vh;
+	width:100%;
+}
+#title_container #logo {
+	color:white;
+	border-style:solid;
+	display: inline-block;
+}
+
+#title_container #title {
+	color:white;
+}
 
 #player_container { 
-	height:84vh; 
+	height:81vh; 
 	padding-top: 1vh;
 	overflow-y: hidden;
 	overflow-x: hidden;
@@ -17,6 +30,17 @@ body {
  	scroll-behavior: smooth;
 	 }
 
+#video_container .nsfw {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight:bold;
+	color:#f03434;
+	background-color:#abb7b7;
+	height:105px;
+	width:140px;
+	font-size:125%;
+}
 .flex-container {
     display: -ms-flexbox;
     display: -webkit-flex;
