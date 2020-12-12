@@ -1,4 +1,4 @@
-package com.niallbegley.rangtv.model;
+package com.niallbegley.rangtv.model.json;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +13,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -35,6 +36,11 @@ public class Video {
 	
 	@Column
 	private String thumbnail;
+	
+	@JsonProperty(value="is_self")
+	private boolean isSelf;
+	
+	private String domain;
 	
 	public Video() {} 
 
@@ -78,6 +84,22 @@ public class Video {
 		this.thumbnail = thumbnail;
 	}
 
+	public boolean isSelf() {
+		return isSelf;
+	}
+
+	public void setSelf(boolean isSelf) {
+		this.isSelf = isSelf;
+	}
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
 	public String getYoutubeId() {
 		String pattern = "(?<=watch\\?v=|/videos/|embed\\/|youtu.be\\/|\\/v\\/|\\/e\\/|watch\\?v%3D|watch\\?feature=player_embedded&v=|%2Fvideos%2F|embed%\u200C\u200B2F|youtu.be%2F|%2Fv%2F)[^#\\&\\?\\n]*";
 
@@ -87,6 +109,6 @@ public class Video {
              return matcher.group();
         }
         
-        return "";
+        return null;
 	}
 }

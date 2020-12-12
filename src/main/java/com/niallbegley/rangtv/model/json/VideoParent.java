@@ -1,4 +1,4 @@
-package com.niallbegley.rangtv.model;
+package com.niallbegley.rangtv.model.json;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

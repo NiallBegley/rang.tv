@@ -7,6 +7,12 @@
 		<div id="title_container">
 			<div id="logo">RANG.TV</div>
 			<a href id="title" target="_blank"></a>
+			<select id="subreddit_selector">
+			  <option th:each="sub : ${subreddits}" 
+			     th:value="${sub}" 
+			     th:selected="(${sub} == ${subreddit})" 
+			     th:text="${sub}"></option>
+			</select>
 		</div>
 		<div id="player_container">
 			<div id="player" ></div>
@@ -25,7 +31,17 @@
 			</th:block>
 		</div>
 	<script>
-		
+		$(function(){
+	      $('#subreddit_selector').on('change', function () {
+	          var subreddit = $(this).val(); 
+	          
+	          if (subreddit) { 
+	              window.location = document.location.origin + "?subreddit=" + subreddit; // redirect
+	          }
+	          return false;
+	      });
+	    });
+	
       // 2. This code loads the IFrame Player API code asynchronously.
       var tag = document.createElement('script');
 

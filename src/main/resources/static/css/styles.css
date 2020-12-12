@@ -18,6 +18,10 @@ body {
 	font-weight: 700;
 }
 
+#title_container select {
+	float:right;
+}
+
 #title_container #title {
 	color:#ecf0f1;
 	margin-left: 20px;
