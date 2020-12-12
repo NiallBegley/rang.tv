@@ -3,38 +3,17 @@ package com.niallbegley.rangtv.model.json;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Entity;
-import org.hibernate.annotations.Table;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@DynamicUpdate 
-@Table(appliesTo = "videos")
-@EntityListeners(AuditingEntityListener.class)
 public class Video {
-
-	@Id
 	private String id;
-	
-	@Column
 	private String title;
-	
-	@Column
 	private String url;
-	
-	@Column
 	private String permalink;
-	
-	@Column
 	private String thumbnail;
 	
 	@JsonProperty(value="is_self")
