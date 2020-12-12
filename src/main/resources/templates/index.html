@@ -93,6 +93,7 @@
     	  sender.classList.add("selected");
     	  
     	  $("#title").text(data.attr("title"));
+    	  $("#title").attr("title", data.attr("title"));
     	  $("#title").attr("href", data.attr("permalink"));
     	  $("#video_container")[0].scroll(getPosition(sender).x,0);
       }
