@@ -1,9 +1,11 @@
 <html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{fragments/layout}">
-
-    <script type="text/javascript" src="/js/jquery.min.js" > </script>
-    <link rel="stylesheet" href="/css/styles.css"/>
-    
-	<div layout:fragment="content" class="parent">
+	
+	<head>
+		<title>RANG.TV</title>
+	    <script type="text/javascript" src="/js/jquery.min.js" > </script>
+	    <link rel="stylesheet" href="/css/styles.css"/>
+	</head>
+	<body>
 		<div id="title_container">
 			<div id="logo">RANG.TV</div>
 			<a href id="title" target="_blank"></a>
@@ -30,103 +32,103 @@
 				</div>
 			</th:block>
 		</div>
-	<script>
-		$(function(){
-	      $('#subreddit_selector').on('change', function () {
-	          var subreddit = $(this).val(); 
-	          
-	          if (subreddit) { 
-	              window.location = document.location.origin + "?subreddit=" + subreddit; // redirect
-	          }
-	          return false;
-	      });
-	    });
+		<script>
+			$(function(){
+		      $('#subreddit_selector').on('change', function () {
+		          var subreddit = $(this).val(); 
+		          
+		          if (subreddit) { 
+		              window.location = document.location.origin + "?subreddit=" + subreddit; // redirect
+		          }
+		          return false;
+		      });
+		    });
+		
+	      // 2. This code loads the IFrame Player API code asynchronously.
+	      var tag = document.createElement('script');
 	
-      // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
-
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-      // 3. This function creates an <iframe> (and YouTube player)
-      //    after the API code downloads.
-      var player;
-      var currentlySelected;
-      function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-          height: '100%',
-          width: '100%',
-          videoId: '[[${youtube_url}]]',
-          events: {
-            'onReady': onPlayerReady,
-            'onStateChange': onPlayerStateChange
-          }
-        });
-      }
-
-      // 4. The API will call this function when the video player is ready.
-      function onPlayerReady(event) {
-
-	    selectVideo($("#video_container div:first-child")[0]);
-        event.target.playVideo();
-      }
-
-      function onPlayerStateChange(event) {
-    	  if (event.data == YT.PlayerState.ENDED && currentlySelected != null) {
-    		  var nextElement = currentlySelected.nextElementSibling;
-    		  if(nextElement != null) {
-    			  nextElement.click();
-    		  }
-          }
-
-       
-      }
-      function stopVideo() {
-        player.stopVideo();
-      }
-      
-      function selectVideo(sender) {
- 		  var data = $("#" + sender.id).find("#data");
-    	  
-    	  currentlySelected = sender;
-    	  sender.classList.add("selected");
-    	  
-    	  $("#title").text(data.attr("title"));
-    	  $("#title").attr("title", data.attr("title"));
-    	  $("#title").attr("href", data.attr("permalink"));
-    	  $("#video_container")[0].scroll(getPosition(sender).x,0);
-      }
-      
-      function changeVideo(sender, videoId) {
-    	  if(currentlySelected != null) {
-    		  currentlySelected.classList.remove("selected");
-    	  }
-
-    	  selectVideo(sender);
-
-    	  player.loadVideoById(videoId, 0);
-    	  
-    	  
-      }
-      
-      //Adapted from https://www.kirupa.com/html5/get_element_position_using_javascript.htm
-      function getPosition(el) {
-    	  var xPos = 0;
-    	  var yPos = 0;
-    	 
-    	  while (el) {
-    	      xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
-    	      yPos += (el.offsetTop - el.scrollTop + el.clientTop);
-    	 
-    	      el = el.offsetParent;
-    	  }
-    	  
-    	  return {
-    	    x: xPos,
-    	    y: yPos
-    	  };
-    	}
-    </script>
-
+	      tag.src = "https://www.youtube.com/iframe_api";
+	      var firstScriptTag = document.getElementsByTagName('script')[0];
+	      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	
+	      // 3. This function creates an <iframe> (and YouTube player)
+	      //    after the API code downloads.
+	      var player;
+	      var currentlySelected;
+	      function onYouTubeIframeAPIReady() {
+	        player = new YT.Player('player', {
+	          height: '100%',
+	          width: '100%',
+	          videoId: '[[${youtube_url}]]',
+	          events: {
+	            'onReady': onPlayerReady,
+	            'onStateChange': onPlayerStateChange
+	          }
+	        });
+	      }
+	
+	      // 4. The API will call this function when the video player is ready.
+	      function onPlayerReady(event) {
+	
+		    selectVideo($("#video_container div:first-child")[0]);
+	        event.target.playVideo();
+	      }
+	
+	      function onPlayerStateChange(event) {
+	    	  if (event.data == YT.PlayerState.ENDED && currentlySelected != null) {
+	    		  var nextElement = currentlySelected.nextElementSibling;
+	    		  if(nextElement != null) {
+	    			  nextElement.click();
+	    		  }
+	          }
+	
+	       
+	      }
+	      function stopVideo() {
+	        player.stopVideo();
+	      }
+	      
+	      function selectVideo(sender) {
+	 		  var data = $("#" + sender.id).find("#data");
+	    	  
+	    	  currentlySelected = sender;
+	    	  sender.classList.add("selected");
+	    	  
+	    	  $("#title").text(data.attr("title"));
+	    	  $("#title").attr("title", data.attr("title"));
+	    	  $("#title").attr("href", data.attr("permalink"));
+	    	  $("#video_container")[0].scroll(getPosition(sender).x,0);
+	      }
+	      
+	      function changeVideo(sender, videoId) {
+	    	  if(currentlySelected != null) {
+	    		  currentlySelected.classList.remove("selected");
+	    	  }
+	
+	    	  selectVideo(sender);
+	
+	    	  player.loadVideoById(videoId, 0);
+	    	  
+	    	  
+	      }
+	      
+	      //Adapted from https://www.kirupa.com/html5/get_element_position_using_javascript.htm
+	      function getPosition(el) {
+	    	  var xPos = 0;
+	    	  var yPos = 0;
+	    	 
+	    	  while (el) {
+	    	      xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+	    	      yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+	    	 
+	    	      el = el.offsetParent;
+	    	  }
+	    	  
+	    	  return {
+	    	    x: xPos,
+	    	    y: yPos
+	    	  };
+	    	}
+	    </script>
+	</body>
 </html>
