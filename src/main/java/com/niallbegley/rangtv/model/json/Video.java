@@ -90,4 +90,8 @@ public class Video {
         
         return null;
 	}
+	
+	public boolean requiresPlaceholder() {
+		return thumbnail.equals("nsfw") || thumbnail.equals("spoiler") || thumbnail.equals("default");
+	}
 }

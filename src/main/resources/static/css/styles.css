@@ -94,6 +94,11 @@ body {
   	overflow-y: hidden;
  	scroll-behavior: smooth;
 	 }
+	 
+#video_container .flex-item .img {
+	width:140px;
+	height:104px;
+}
 
 #video_container .nsfw {
 	display: flex;

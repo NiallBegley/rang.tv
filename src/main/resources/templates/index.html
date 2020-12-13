@@ -28,17 +28,18 @@
 		</div>		
 		<div id="video_container" class="flex-container" >
 			<th:block th:each="video : ${videos}">
-				<div th:attr="onclick=|changeVideo(this, '${video.getYoutubeId()}')|"   class="flex-item" th:id="${video.getYoutubeId()}">
+				<div th:attr="onclick=|changeVideo(this, '${video.getYoutubeId()}')|" class="flex-item" th:id="${video.getYoutubeId()}">
 					
-					<div id="data" th:title="${video.title}" th:youtubeid="${video.getYoutubeId()}" th:permalink="${video.permalink}" > </div>
+					<div id="data" th:title="${video.title}" th:youtubeid="${video.getYoutubeId()}" th:permalink="${video.permalink}" >
 				 	
-					<div>
-						<img th:src="${video.thumbnail}" th:title="${video.title}" th:if="${video.thumbnail != 'nsfw' && video.thumbnail != 'spoiler'}"/>
-						<div class="nsfw" th:if="${video.thumbnail == 'nsfw'}">NSFW</div>
-						<div class="nsfw" th:if="${video.thumbnail == 'spoiler'}">SPOILER</div>
-						
+						<div>
+							<img th:src="${video.thumbnail}" th:title="${video.title}" th:unless="${video.requiresPlaceholder()}"></img>
+							<div class="nsfw" th:if="${video.thumbnail == 'nsfw'}">NSFW</div>
+							<div class="nsfw" th:if="${video.thumbnail == 'spoiler'}">SPOILER</div>
+							<img type="image/png" src="img/placeholder.png" th:if="${video.thumbnail == 'default'}"></img>
+						</div>
 					</div>
-				</div>
+				</div>				
 			</th:block>
 		</div>
 		<script>
