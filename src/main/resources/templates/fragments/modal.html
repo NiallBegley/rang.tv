@@ -4,6 +4,13 @@
     <span class="close">&times;</span>
     <h2>Settings</h2>
     <form action="#" th:action="@{/settings}" th:object="${settings}" method="post" id="settings_form">
+	    <p> 
+	    Sort submissions by:
+	    <select name="sorting">
+	   	 	<option th:each="sort : ${T(com.niallbegley.rangtv.model.Settings.Sort).values()}" 
+	        th:value="${sort}" th:text="${sort.toString().toLowerCase()}" th:selected="${settings.sorting == colorOpt}"></option>
+		</select> 
+		</p>
     	<table id="subreddits_table">
 		   <tbody >
 		      <tr th:each="subreddit, i : *{subreddits}">

@@ -15,15 +15,25 @@ public class Settings {
 
 	private boolean useOldReddit;
 	private List<String> subreddits;
+	private Sort sorting;
+	
+	public enum Sort {
+		HOT,
+		NEW,
+		RISING,
+		CONTROVERSIAL,
+		TOP
+	}
 	
 	public Settings() { }
 	
-	public Settings(boolean useOldReddit, List<String> subreddits) {
+	public Settings(boolean useOldReddit, List<String> subreddits, Sort sorting) {
 		this.useOldReddit = useOldReddit;
 		this.subreddits = subreddits;
+		this.sorting = sorting;
 	}
 	public static Settings defaultSettings() {
-		return new Settings(false, Arrays.asList("videos", "youtubehaiku", "timanderic"));
+		return new Settings(false, Arrays.asList("videos", "youtubehaiku", "timanderic"), Sort.HOT);
 	}
 	public boolean isUseOldReddit() {
 		return useOldReddit;
@@ -38,6 +48,14 @@ public class Settings {
 		this.subreddits = subreddits;
 	}
 	
+	public Sort getSorting() {
+		return sorting;
+	}
+
+	public void setSorting(Sort sorting) {
+		this.sorting = sorting;
+	}
+
 	public void validate() {
 		//This regex will validate subreddits.  They must be between 3 and 21 characters and only contain letters, numbers and underscores (as long as they don't start with the underscore)
 		String regex = "^(?![_])([a-zA-Z0-9_]){3,21}";

@@ -72,7 +72,7 @@ public class VideosController {
 		 model.addAttribute("subreddits", settings.getSubreddits());
 		 model.addAttribute("subreddit", subreddit);
 		 
-		 List<Video> videos = getVideos(subreddit);
+		 List<Video> videos = getVideos(subreddit, settings.getSorting().toString());
 		 
 		 if(videos.size() > 0) {
 			 model.addAttribute("youtube_url", videos.get(0).getYoutubeId());
@@ -103,9 +103,9 @@ public class VideosController {
 			logger.error("Failed to redirect user from settings", e);
 		}
 	 }
-	 private List<Video> getVideos(String subreddit) {
+	 private List<Video> getVideos(String subreddit, String sorting) {
 		 UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(
-				 String.format("https://www.reddit.com/r/%s/hot.json", subreddit))
+				 String.format("https://www.reddit.com/r/%s/%s.json", subreddit, sorting.toLowerCase()))
 			        .queryParam("limit", 100);
 			        
 		 TopLevelObject topLevel = restOperations.getForEntity(builder.build().toUri(), TopLevelObject.class).getBody();
