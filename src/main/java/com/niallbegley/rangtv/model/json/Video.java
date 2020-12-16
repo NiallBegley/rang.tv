@@ -3,6 +3,7 @@ package com.niallbegley.rangtv.model.json;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringEscapeUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,7 +37,8 @@ public class Video {
 	}
 
 	public void setTitle(String title) {
-		this.title = title;
+		
+		this.title =  StringEscapeUtils.unescapeHtml(title);
 	}
 
 	public String getUrl() {
