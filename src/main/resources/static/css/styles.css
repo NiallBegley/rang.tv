@@ -58,6 +58,7 @@ body {
     -webkit-align-self: auto;
     -ms-flex-item-align: auto;
     align-self: auto;
+    padding:3px;
 }
 
 #title_container #title {
@@ -81,11 +82,20 @@ body {
     align-self: auto;
 }
 
-#player_container { 
+.player_container { 
 	height:81vh; 
 	padding-top: 1vh;
 	overflow-y: hidden;
 	overflow-x: hidden;
+}
+
+.player_container .error {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	font-size: 300%;
+	color: #ecf0f1;
 }
 
 #video_container { 
@@ -151,4 +161,14 @@ body {
     
 .flex-item.selected {
 	border-color:white;
+}
+
+i.fa.fa-gear:hover {
+	cursor:pointer;
+}
+i.fa.fa-gear {
+	color:#ecf0f1;
+	margin-left:5px;
+	margin-right:5px;
+	font-size:24px;
 }
