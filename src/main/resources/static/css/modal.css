@@ -64,3 +64,16 @@ button {
 #settings_form p{
 	padding-left:3px
 }
+
+.credits {
+	display: flex;
+	justify-content: end;
+}
+
+.credits a {
+	color:#ecf0f1;
+}
+
+.credits a:visited {
+	color:#ecf0f1;
+}
