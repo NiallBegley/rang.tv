@@ -1,0 +1,27 @@
+<div id="modalView" class="modal">
+
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Settings</h2>
+    <form action="#" th:action="@{/settings}" th:object="${settings}" method="post" id="settings_form">
+    	<table id="subreddits_table">
+		   <tbody >
+		      <tr th:each="subreddit, i : *{subreddits}">
+		      	<td>
+		         	<input  th:field="*{subreddits[__${i.index}__]}" th:index="${i.index}"></input>
+		         </td>
+		         <td>
+		         	<i class="fa fa-close w3-large" th:index="${i.index}" onclick="removeSubreddit(this)"></i>
+		         </td>
+		      </tr>
+		      
+		   </tbody>
+		</table>
+		
+   		 <p><input id="newSubredditTextField" type="text" placeholder="Add subreddit..." onkeypress="handle(event)"/>	<button title="Add" type="button" onclick="addSubreddit()">Add</button>
+		
+        <p><input type="submit" value="Save" /></p>
+    </form>
+  </div>
+		
+</div>

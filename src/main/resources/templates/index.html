@@ -1,4 +1,4 @@
-<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{fragments/layout}">
+<html xmlns:layout="http://www.w3.org/1999/xhtml">
 	
 	<head>
 		<title>RANG.TV</title>
@@ -51,173 +51,53 @@
 			</th:block>
 		</div>
 		
-		<div id="modalView" class="modal">
-
-		  
-		  <div class="modal-content">
-		    <span class="close">&times;</span>
-		    <h2>Settings</h2>
-		    <form action="#" th:action="@{/settings}" th:object="${settings}" method="post" id="settings_form">
-		    	<table id="subreddits_table">
-				   <tbody >
-				      <tr th:each="subreddit, i : *{subreddits}">
-				      	<td>
-				         	<input  th:field="*{subreddits[__${i.index}__]}" th:index="${i.index}"></input>
-				         </td>
-				         <td>
-				         	<i class="fa fa-close w3-large" th:index="${i.index}" onclick="removeSubreddit(this)"></i>
-				         </td>
-				      </tr>
-				      
-				   </tbody>
-				</table>
-				
-		   		 <p><input id="newSubredditTextField" type="text" placeholder="Add subreddit..." onkeypress="handle(event)"/>	<button title="Add" type="button" onclick="addSubreddit()">Add</button>
-				
-		        <p><input type="submit" value="Save" /></p>
-		    </form>
-		  </div>
+		<div th:insert="fragments/modal"></div>
 		
-		</div>
 		<script>
-		
-			$(function(){
-			  var modal = $("#modalView")[0];
-			  var span = $("span.close")[0];
-			  var settingsGear = $("#settings_gear")[0];
-			  
-		      $('#subreddit_selector').on('change', function () {
-		          var subreddit = $(this).val(); 
-		          
-		          if (subreddit) { 
-	              	window.location = document.location.origin + "?subreddit=" + subreddit;
-		          }
-		          return false;
-		      });
-		      
-		      span.onclick = function() {
-		        modal.style.display = "none";
-		      }
-		      
-		      window.onclick = function(event) {
-		        if (event.target == modal) {
-		          modal.style.display = "none";
-		        }
-		      }
-		      
-		      settingsGear.onclick = function() {
-		    	  modal.style.display = "block";
-		      }
-
-		    });
-		
-			function handle(e){
-		        if(e.keyCode === 13){
-		            e.preventDefault(); 
-		            addSubreddit();
-		        }
-		    }
-			
-		  function addSubreddit() {
-			  var index = parseInt($("#subreddits_table input:last").attr("index")) + 1;
-			  
-			  var subreddit = $("#newSubredditTextField")[0].value;
-			  if(subreddit && subreddit.trim().length !== 0) {
-				  $('#subreddits_table tr:last').after('<tr><td><input id="subreddits' + index + '" index="' + index + '" name="subreddits[' + index + ']" value="' + subreddit + '"></tr></td>');
-				  $("#newSubredditTextField")[0].value = "";
+			// 2. This code loads the IFrame Player API code asynchronously.
+			  var tag = document.createElement('script');
+	
+			  tag.src = "https://www.youtube.com/iframe_api";
+			  var firstScriptTag = document.getElementsByTagName('script')[0];
+			  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	
+			  // 3. This function creates an <iframe> (and YouTube player)
+			  //    after the API code downloads.
+			  var player;
+			  var currentlySelected;
+			  function onYouTubeIframeAPIReady() {
+			    player = new YT.Player('player', {
+			      height: '100%',
+			      width: '100%',
+			      videoId: '[[${youtube_url}]]',
+			      events: {
+			        'onReady': onPlayerReady,
+			        'onStateChange': onPlayerStateChange
+			      }
+			    });
 			  }
-		  }
-		  
-		  function removeSubreddit(sender) {
-			  var index = parseInt(sender.attributes["index"].value);
-			  $("#subreddits" + index).hide();
-			  $("#subreddits" + index).val("");
-		  }
-	      // 2. This code loads the IFrame Player API code asynchronously.
-	      var tag = document.createElement('script');
 	
-	      tag.src = "https://www.youtube.com/iframe_api";
-	      var firstScriptTag = document.getElementsByTagName('script')[0];
-	      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+			  // 4. The API will call this function when the video player is ready.
+			  function onPlayerReady(event) {
 	
-	      // 3. This function creates an <iframe> (and YouTube player)
-	      //    after the API code downloads.
-	      var player;
-	      var currentlySelected;
-	      function onYouTubeIframeAPIReady() {
-	        player = new YT.Player('player', {
-	          height: '100%',
-	          width: '100%',
-	          videoId: '[[${youtube_url}]]',
-	          events: {
-	            'onReady': onPlayerReady,
-	            'onStateChange': onPlayerStateChange
-	          }
-	        });
-	      }
+			    selectVideo($("#video_container div:first-child")[0]);
+			    event.target.playVideo();
+			  }
 	
-	      // 4. The API will call this function when the video player is ready.
-	      function onPlayerReady(event) {
+			  function onPlayerStateChange(event) {
+				  if (event.data == YT.PlayerState.ENDED && currentlySelected != null) {
+					  var nextElement = currentlySelected.nextElementSibling;
+					  if(nextElement != null) {
+						  nextElement.click();
+					  }
+			      }
 	
-		    selectVideo($("#video_container div:first-child")[0]);
-	        event.target.playVideo();
-	      }
-	
-	      function onPlayerStateChange(event) {
-	    	  if (event.data == YT.PlayerState.ENDED && currentlySelected != null) {
-	    		  var nextElement = currentlySelected.nextElementSibling;
-	    		  if(nextElement != null) {
-	    			  nextElement.click();
-	    		  }
-	          }
-	
-	       
-	      }
-	      function stopVideo() {
-	        player.stopVideo();
-	      }
-	      
-	      function selectVideo(sender) {
-	 		  var data = $("#" + sender.id).find("#data");
-	    	  
-	    	  currentlySelected = sender;
-	    	  sender.classList.add("selected");
-	    	  
-	    	  $("#title").text(data.attr("title"));
-	    	  $("#title").attr("title", data.attr("title"));
-	    	  $("#title").attr("href", data.attr("permalink"));
-	    	  $("#video_container")[0].scroll(getPosition(sender).x,0);
-	      }
-	      
-	      function changeVideo(sender, videoId) {
-	    	  if(currentlySelected != null) {
-	    		  currentlySelected.classList.remove("selected");
-	    	  }
-	
-	    	  selectVideo(sender);
-	
-	    	  player.loadVideoById(videoId, 0);
-	    	  
-	    	  
-	      }
-	      
-	      //Adapted from https://www.kirupa.com/html5/get_element_position_using_javascript.htm
-	      function getPosition(el) {
-	    	  var xPos = 0;
-	    	  var yPos = 0;
-	    	 
-	    	  while (el) {
-	    	      xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
-	    	      yPos += (el.offsetTop - el.scrollTop + el.clientTop);
-	    	 
-	    	      el = el.offsetParent;
-	    	  }
-	    	  
-	    	  return {
-	    	    x: xPos,
-	    	    y: yPos
-	    	  };
-	    	}
-	    </script>
+			   
+			  }
+			  function stopVideo() {
+			    player.stopVideo();
+			  }
+		  </script>
+	    <script type="text/javascript" src="/js/main.js" > </script>
 	</body>
 </html>
