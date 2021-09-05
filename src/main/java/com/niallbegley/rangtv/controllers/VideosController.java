@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.niallbegley.rangtv.model.Settings;
+import com.niallbegley.rangtv.model.Settings.Sort;
 import com.niallbegley.rangtv.model.json.TopLevelObject;
 import com.niallbegley.rangtv.model.json.Video;
 import com.niallbegley.rangtv.model.json.VideoParent;
@@ -56,10 +57,11 @@ public class VideosController {
 		 
 		 if(subreddit == null || subreddit.isEmpty()) {
 			 subreddit = "videos";
-		 }
+		 } 
 		 
-		 Settings settings = Settings.defaultSettings();
-		 
+		 Settings defaultSettings = Settings.defaultSettings();
+		 Settings settings = null;
+
 		 if(!settingsCookie.isEmpty()) {
 			 byte[] cookieData = Base64.getDecoder().decode(settingsCookie);
 			 try {
@@ -67,6 +69,14 @@ public class VideosController {
 			} catch (IOException e) {
 				logger.error("Failed to parse settings from cookie - using defaults", e);
 			}
+
+			//Check and account for incomplete cookie data just in case something happens
+			if(settings.getSorting() == null || settings.getSubreddits() == null) {
+				settings = defaultSettings;
+			 }
+
+		 } else {
+			 settings = defaultSettings;
 		 }
 		 
 		 model.addAttribute("subreddits", settings.getSubreddits());
