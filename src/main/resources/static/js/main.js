@@ -64,14 +64,14 @@ $(function(){
 	  $("#video_container")[0].scroll(getPosition(sender).x,0);
   }
   
-  function changeVideo(sender, videoId) {
+  function changeVideo(sender, videoId, startTime) {
 	  if(currentlySelected != null) {
 		  currentlySelected.classList.remove("selected");
 	  }
 
 	  selectVideo(sender);
 
-	  player.loadVideoById(videoId, 0);
+	  player.loadVideoById(videoId, startTime);
 	  
 	  
   }

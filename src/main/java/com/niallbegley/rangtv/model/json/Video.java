@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Video {
@@ -16,6 +18,7 @@ public class Video {
 	private String url;
 	private String permalink;
 	private String thumbnail;
+	private Logger logger = LoggerFactory.getLogger(Video.class);
 	
 	@JsonProperty(value="is_self")
 	private boolean isSelf;
@@ -95,5 +98,21 @@ public class Video {
 	
 	public boolean requiresPlaceholder() {
 		return thumbnail.equals("nsfw") || thumbnail.equals("spoiler") || thumbnail.equals("default");
+	}
+
+	public int getStartTime() {
+		String pattern = "[?]{1}t=(\\d+)";
+
+        Pattern compiledPattern = Pattern.compile(pattern);
+        Matcher matcher = compiledPattern.matcher(url); //url is youtube url for which you want to extract the id.
+        if (matcher.find()) {
+			try {
+             	return Integer.parseInt(matcher.group(1));
+			} catch (NumberFormatException e) {
+				logger.error("Failed to parse timestamp in youtube URL", e);
+			}
+		}
+			return 0;
+        
 	}
 }

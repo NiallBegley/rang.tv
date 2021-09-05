@@ -36,7 +36,7 @@
 		</div>	
 		<div id="video_container" class="flex-container" >
 			<th:block th:each="video : ${videos}">
-				<div th:attr="onclick=|changeVideo(this, '${video.getYoutubeId()}')|" class="flex-item" th:id="${video.getYoutubeId()}">
+				<div th:attr="onclick=|changeVideo(this, '${video.getYoutubeId()}', '${video.getStartTime()}')|" class="flex-item" th:id="${video.getYoutubeId()}">
 					
 					<div id="data" th:title="${video.title}" th:youtubeid="${video.getYoutubeId()}" th:permalink="${video.permalink}" >
 				 	
