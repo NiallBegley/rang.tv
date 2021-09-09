@@ -1,4 +1,9 @@
 $(function(){
+
+	//Hide the youtube player - we'll unhide it if we need it
+	  var player = $("#player")[0];
+	  player.style.display = "none";
+
 	  var modal = $("#modalView")[0];
 	  var span = $("span.close")[0];
 	  var settingsGear = $("#settings_gear")[0];
@@ -53,7 +58,7 @@ $(function(){
   
   
   function selectVideo(sender) {
-	  var data = $("#" + sender.id).find("#data");
+	  var data = $(sender).find("#data");
 	  
 	  currentlySelected = sender;
 	  sender.classList.add("selected");
@@ -62,13 +67,69 @@ $(function(){
 	  $("#title").attr("title", data.attr("title"));
 	  $("#title").attr("href", data.attr("permalink"));
 	  $("#video_container")[0].scroll(getPosition(sender).x,0);
+
+	  if(data.attr("type") == "reddit") {
+		player.h.style.display = "none";
+	  } else {
+		player.h.style.display = "block";
+	  }
   }
   
+  function changeRedditVideo(sender, video, audio) {
+	  
+	  selectVideo(sender);
+
+	  var container = $("#player_container")[0];
+
+	  var oldVideo = $("#player_container video");
+	  if(oldVideo != null) {
+	  	oldVideo.remove();
+	  }
+	  var oldAudio = $("#player_container audio");
+	  if(oldAudio != null) {
+		oldAudio.remove();
+	  }
+
+	  var video = $('<video />', {
+		id: 'video',
+		src: video,
+		type: 'video/mp4',
+		controls: true,
+	});
+	video.appendTo($("#player_container"));
+
+	//Adapted from https://github.com/ubershmekel/redditp/blob/3641c615abd3fe56f6d8f9332696cfec2777026f/js/script.js#L788
+	$("<audio><source src='" + audio + "' type='audio/aac'/></audio>").appendTo($("#player_container"));
+
+	var $audioTag = $("audio", $("#player_container")).get(0);
+	var $videoTag = $("video", $("#player_container")).get(0);
+
+	// sync reddit audio and video tracks
+	$audioTag.currentTime = $videoTag.currentTime;
+	$videoTag.onplay = function () {
+		$audioTag.play();
+	};
+	$videoTag.onpause = function () {
+		$audioTag.pause();
+	};
+	$videoTag.onseeking = function () {
+		$audioTag.currentTime = $videoTag.currentTime;
+	}
+
+	$videoTag.onended = function() {
+		var nextElement = currentlySelected.nextElementSibling;
+		if(nextElement != null) {
+			nextElement.click();
+		}
+	}
+	
+  }
+
   function changeVideo(sender, videoId, startTime) {
 	  if(currentlySelected != null) {
 		  currentlySelected.classList.remove("selected");
 	  }
-
+	  
 	  selectVideo(sender);
 
 	  player.loadVideoById(videoId, startTime);

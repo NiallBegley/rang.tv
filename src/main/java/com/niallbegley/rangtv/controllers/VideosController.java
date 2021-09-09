@@ -85,7 +85,14 @@ public class VideosController {
 		 List<Video> videos = getVideos(subreddit, settings.getSorting().toString());
 		 
 		 if(videos.size() > 0) {
-			 model.addAttribute("youtube_url", videos.get(0).getYoutubeId());
+			 Video firstVideo = videos.get(0);
+			 if(firstVideo.getYoutubeId() != null) {
+			 	model.addAttribute("initial_url", firstVideo.getYoutubeId());
+			 }
+			 else if(firstVideo.getFallbackURLVideo() != null) {
+				model.addAttribute("initial_url", firstVideo.getFallbackURLVideo());
+			 }
+			 model.addAttribute("initial_type", firstVideo.getType());
 		 } 
 
 		 model.addAttribute("videos", videos);
@@ -122,13 +129,13 @@ public class VideosController {
 		 
 		 List<Video> videos = topLevel.getData().getChildren().stream().map(VideoParent::getVideo).collect(Collectors.toList());
 		 
-		 //Remove videos that are self posts or non-youtube submissions
+		 //Remove videos that are self posts or non-supported submissions
 		 Iterator<Video> iterator = videos.listIterator();
 		 while(iterator.hasNext()) {
 			 Video video = iterator.next();
 			 if(video.isSelf()) {
 				 iterator.remove();
-			 } else if(video.getYoutubeId() == null) {
+			 } else if(!video.isSupported()) {
 				 iterator.remove();
 			 }
 		 }

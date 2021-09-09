@@ -98,6 +98,14 @@ body {
 	color: #ecf0f1;
 }
 
+.player_container video {
+    height: 100%;
+    text-align: center;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 #video_container { 
 	height: 13vh;
 	overflow-x:auto;
