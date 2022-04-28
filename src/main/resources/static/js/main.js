@@ -1,9 +1,12 @@
+//
+var currentlySelected;
+var playerdiv;
 $(function(){
-
+			
+	
 	//Hide the youtube player - we'll unhide it if we need it
-	  var player = $("#player")[0];
-	  player.style.display = "none";
-
+	  playerdiv = $("#player")[0];
+	  playerdiv.style.display = "block";
 	  var modal = $("#modalView")[0];
 	  var span = $("span.close")[0];
 	  var settingsGear = $("#settings_gear")[0];
@@ -60,7 +63,7 @@ $(function(){
   function selectVideo(sender) {
 	  var data = $(sender).find("#data");
 	  
-	  currentlySelected = sender;
+	  var currentlySelected = sender;
 	  sender.classList.add("selected");
 	  
 	  $("#title").text(data.attr("title"));
@@ -69,9 +72,9 @@ $(function(){
 	  $("#video_container")[0].scroll(getPosition(sender).x,0);
 
 	  if(data.attr("type") == "reddit") {
-		player.h.style.display = "none";
+		playerdiv.style.display = "none";
 	  } else {
-		player.h.style.display = "block";
+		playerdiv.style.display = "block";
 	  }
   }
   
